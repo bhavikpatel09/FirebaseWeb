@@ -39,6 +39,7 @@
             $scope.deleteNotificationListner(data.key);
         });
     }
+   
 
     //$scope.valueChangeNotificationListner = function (snapshot) {
     //    debugger;
@@ -60,9 +61,15 @@
                     val.timeDifference = $scope.timeDifference(new Date(), new Date(val.createdDate));
                     $scope.placedOrders.push(val);
                 });
-                console.log($scope.placedOrders);
+                //console.log($scope.placedOrders);
                 $rootScope.orderList = $scope.placedOrders;
-                $scope.$apply();
+                var unViewedOrders = $rootScope.orderList.filter(function (order) {
+                    return order.isView === false;
+                });
+                if (unViewedOrders != undefined)
+                    $rootScope.unViewedOrderCount = unViewedOrders.length;
+                setTimeout(function () { $scope.$apply(); },100);
+                
             }
           
             //$rootScope.orderCount = $scope.placedOrders.length;
@@ -81,9 +88,14 @@
                     $scope.placedOrders.push(val);
                     
                 });
-                console.log($scope.placedOrders);
+               // console.log($scope.placedOrders);
                 $rootScope.orderList = $scope.placedOrders;
-                $scope.$apply();
+                var unViewedOrders = $rootScope.orderList.filter(function (order) {
+                    return order.isView === false;
+                });
+                if (unViewedOrders != undefined)
+                    $rootScope.unViewedOrderCount = unViewedOrders.length;
+                setTimeout(function () { $scope.$apply(); }, 100);
             }            
         }
         debugger;
@@ -91,7 +103,6 @@
     $scope.deleteNotificationListner = function (key) {
     }
     $scope.saveOrder = function (order) {
-
         if (order != undefined) {
             order.isView = false;
             order.isStatusChanged = false;
@@ -99,9 +110,10 @@
             order.newStatus = "";
             order.createdDate = new Date();
             // Get a key for a new Post.
-            var newPostKey = $scope.vendorNotificationsRef.child('notifications').push().key;
+            var newNotificationKey = $scope.vendorNotificationsRef.child('notifications').push().key;
+            order.key = newNotificationKey;
             var updates = {};
-            updates['/vendorNotifications/' + $scope.vendorId + "/notifications/" + newPostKey] = order;
+            updates['/vendorNotifications/' + $rootScope.vendorId + "/notifications/" + newNotificationKey] = order;
             $scope.vendorNotificationsRef.update(updates);
             //$scope.order = {};
         }

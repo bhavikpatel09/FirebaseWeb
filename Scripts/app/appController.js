@@ -2,9 +2,10 @@
     $scope.appName = "Demo App";
 
     $scope.initApp = function () {
-        $rootScope.vendorId = 3;
+        $rootScope.vendorId = 4;
        // $scope.vendorId = 2;
         $scope.setNotifications();
+       
     }
     $scope.logDetail = function (msg) {
         // windowLog(msg);
@@ -25,12 +26,33 @@
                             val.timeDifference = $scope.timeDifference(new Date(), new Date(val.createdDate));
                             $rootScope.orderList.push(val);
                         });
-                        $scope.$apply();
+                        var unViewedOrders = $rootScope.orderList.filter(function (order) {
+                            return order.isView === false;
+                        });
+                        if (unViewedOrders != undefined)
+                            $rootScope.unViewedOrderCount = unViewedOrders.length;
+                        setTimeout(function () { $scope.$apply(); }, 100);
                     }
                 }
             });
         });
     }
+    $scope.hoverIn = function (order) {
+        //this.hoverEdit = true;
+        //debugger;
+    };
+
+    $scope.hoverOut = function (order) {
+        debugger;        
+        if (order != undefined) {
+            order = JSON.parse(angular.toJson(order));
+            order.isView = true;            
+            var updates = {};
+            updates['/vendorNotifications/' + $rootScope.vendorId + "/notifications/" + order.key] = order;
+            $rootScope.database.ref("vendorNotifications/" + $rootScope.vendorId /*+ "/notifications"*/).update(updates);
+            //$rootScope.database.ref("/vendorNotifications/" + $rootScope.vendorId + "/notifications/" + order.key+"/isView").set(true);
+        }
+    };
     $scope.timeDifference = function (current, previous) {
 
         var msPerMinute = 60 * 1000;
