@@ -18,6 +18,7 @@
 
     <script src="Scripts/app/appController.js"></script>
     <script src="Scripts/app/userController.js"></script>
+    <script src="Scripts/app/vendorController.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 
 </head>
@@ -34,9 +35,9 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#User">User</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li class="dropdown">
+                            <li><a href="#user">User</a></li>
+                            <li><a href="#vendor">Vendor</a></li>
+                            <!--<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     Dropdown  <span class="badge badge-pill badge-danger">{{orderCount}}</span> <span class="caret"></span>
 
@@ -50,26 +51,26 @@
                                     <li><a href="#">Separated link</a></li>
                                     <li><a href="#">One more separated link</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <!--<li><a href="../navbar/">Default</a></li>
                             <li><a href="../navbar-static-top/">Static top</a></li>-->
                             <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> 
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> 
                                     <span class="glyphicon glyphicon-bell"> </span>
                                 Orders 
-                                     <span class="badge badge-pill badge-danger" ng-show="orderCount>0">{{orderCount}}</span> 
+                                     <span class="badge badge-pill badge-danger" ng-if="orderList != undefined && orderList.length>0">{{orderList.length}}</span> 
                                     <span class="caret"></span> 
                                 </a>
                                 <ul class="dropdown-menu dropdown-cart" role="menu">
                                     <li ng-repeat="order in orderList | limitTo:-5 | orderBy: 'createdDate':true ">
                                         <span class="item">
                                             <span class="item-left">
-                                                <img src="http://lorempixel.com/50/50/" alt="" />
+                                                <!--<img src="http://lorempixel.com/50/50/" alt="" />-->
                                                 <span class="item-info">
-                                                    <span>{{order.orderId}} - {{order.name}}</span>                                                                                                          
+                                                    <span><b> {{order.orderId}}  - {{order.name}} </b></span>                                                                                                          
                                                     <span>{{order.price}}</span>
                                                     <span class="dropdown-header" style="padding-left:0;">{{order.message}}</span>
                                                     <!--<span class="dropdown-header" style="padding-left:0;">{{order.createdDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>-->
@@ -80,65 +81,8 @@
                                             </span>
                                         </span>
                                     </li>
-                                    <!--<li>
-                                        <span class="item">
-                                            <span class="item-left">
-                                                <img src="http://lorempixel.com/50/50/" alt="" />
-                                                <span class="item-info">
-                                                    <span class="dropdown-header" style="padding-left:0;">Notification message.</span>
-                                                    <span>Order Id - Name</span>     
-                                                    <span>23$</span>
-                                                </span>
-                                            </span>
-                                            <span class="item-right">
-                                            </span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="item">
-                                            <span class="item-left">
-                                                <img src="http://lorempixel.com/50/50/" alt="" />
-                                                <span class="item-info">
-                                                    <span >Order Id - Name</span>
-                                                    <span>23$</span>
-                                                    <span class="dropdown-header" style="padding-left:0;">Notification message.</span>
-                                                </span>
-                                            </span>
-                                            <span class="item-right">
-                                            </span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="item">
-                                            <span class="item-left">
-                                                <img src="http://lorempixel.com/50/50/" alt="" />
-                                                <span class="item-info">
-                                                    <span>Order Id - Name</span>
-                                                    <span>23$</span>
-                                                    <span class="dropdown-header" style="padding-left:0;">Status has been changed.</span>
-                                                </span>
-                                            </span>
-                                            <span class="item-right">
-                                            </span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="item">
-                                            <span class="item-left">
-                                                <img src="http://lorempixel.com/50/50/" alt="" />
-                                                <span class="item-info">
-                                                    <span>Order Id - Name</span>
-                                                    <span>23$</span>
-                                                    <span class="dropdown-header" style="padding-left:0;">Status has been changed.</span>
-                                                </span>
-                                            </span>
-                                            <span class="item-right">
-                                                
-                                            </span>
-                                        </span>
-                                    </li>-->
                                     <li class="divider" ng-if="orderList != undefined && orderList.length>5"></li>
-                                    <li><a class="text-center" href="#" ng-if="orderList != undefined && orderList.length>5">Show all notifications</a></li>
+                                    <li><a class="text-center" href="#vendor" ng-if="orderList != undefined && orderList.length>5">Show all notifications</a></li>
                                 </ul>
                             </li>
                         </ul>
