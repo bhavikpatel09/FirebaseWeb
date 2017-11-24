@@ -12,14 +12,16 @@
     }
 
     $scope.setNotifications = function () {
+        debugger
         var ref = $rootScope.database.ref("vendorNotifications/" + $rootScope.vendorId);
         ref.once('value', function (vendorNotifications) {
+            debugger
             vendorNotifications.forEach(function (vendorNotification) {
                 var key = vendorNotification.key;
-                var value = vendorNotification.val();                
-                if (key == "vendorNotifications") {
-                    if (value != null && value[$rootScope.vendorId] != null) {
-                        var list = value[$rootScope.vendorId].notifications;
+                var list = vendorNotification.val();                
+                if (key == "notifications") {
+                    if (list != null ) {
+                        //var list = value[$rootScope.vendorId].notifications;
                         $rootScope.orderList = [];
                         angular.forEach(list, function (val) {
                             if (val.createdDate == undefined) { val.createdDate = new Date(); }
@@ -48,7 +50,7 @@
             order = JSON.parse(angular.toJson(order));
             order.isView = true;            
             var updates = {};
-            updates['/vendorNotifications/' + $rootScope.vendorId + "/notifications/" + order.key] = order;
+            updates["/notifications/" + order.key] = order;
             $rootScope.database.ref("vendorNotifications/" + $rootScope.vendorId /*+ "/notifications"*/).update(updates);
             //$rootScope.database.ref("/vendorNotifications/" + $rootScope.vendorId + "/notifications/" + order.key+"/isView").set(true);
         }

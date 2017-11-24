@@ -50,11 +50,11 @@
     //    });
     //}
 
-    $scope.addNotificationListner = function (key, val, vendorId) {
+    $scope.addNotificationListner = function (key, list, vendorId) {
         debugger;
-        if (key == "vendorNotifications") {
-            if (val != null && val[vendorId] != null) {
-                var list = val[vendorId].notifications;
+        if (key == "notifications") {
+            if (list != null) {
+                //var list = val[vendorId].notifications;
                 $scope.placedOrders = [];
                 angular.forEach(list, function (val) {
                     if (val.createdDate == undefined) { val.createdDate = new Date(); }
@@ -77,10 +77,11 @@
         }
         
     }
-    $scope.setNotificationListner = function (key, val, vendorId) {
-        if (key == "vendorNotifications") {
-            if (val != null && val[vendorId] != null) {
-                var list = val[vendorId].notifications;
+    $scope.setNotificationListner = function (key, list, vendorId) {
+        debugger
+        if (key == "notifications") {
+            if (list != null) {
+                //var list = val[vendorId].notifications;
                 $scope.placedOrders= [];
                 angular.forEach(list, function (val) {
                     if (val.createdDate == undefined) { val.createdDate = new Date(); }
@@ -113,7 +114,8 @@
             var newNotificationKey = $scope.vendorNotificationsRef.child('notifications').push().key;
             order.key = newNotificationKey;
             var updates = {};
-            updates['/vendorNotifications/' + $rootScope.vendorId + "/notifications/" + newNotificationKey] = order;
+            //updates['/vendorNotifications/' + $rootScope.vendorId + "/notifications/" + newNotificationKey] = order;
+            updates["/notifications/" + newNotificationKey] = order;
             $scope.vendorNotificationsRef.update(updates);
             //$scope.order = {};
         }
